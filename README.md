@@ -1,4 +1,4 @@
-nos-flashdance
+nos-notify
 ==============
 
-Numix's flashy dancing notification extension
+Numix's notification extension
