@@ -20,7 +20,22 @@ const NotificationCenter = new Lang.Class({
             style_class: 'system-status-icon'
         });
         this.actor.add_actor( icon );
+         
+        this._createMenu();
+    },
+    _createMenu: function() {
+        
+        let hbox = new St.BoxLayout({ style_class: '' });
+        let label = new St.Label({
+            text:     'Notification Center',
+            y_expand:  true,
+            y_align:   Clutter.ActorAlign.CENTER
+        });
+
+        hbox.add_child( label );
+        this.menu.box.add_child(hbox);
     }
+
 });
 
 
