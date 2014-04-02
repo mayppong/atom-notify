@@ -13,7 +13,7 @@ const Main      = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Panel     = imports.ui.panel;
 
-
+const Gio       = imports.gi.Gio;
 /**
  * This class provides the icon in the system status area 
  * and the menu.
@@ -30,8 +30,9 @@ const NotificationCenter = new Lang.Class({
             style_class: 'system-status-icon'
         });
         this.actor.add_actor( icon );
-         
+        
         this._createMenu();
+        this._setSignalHandler();
     },
     _createMenu: function() {
         
@@ -44,10 +45,19 @@ const NotificationCenter = new Lang.Class({
 
         hbox.add_child( label );
         this.menu.box.add_child(hbox);
+    },
+    _setSignalHandler: function() {
+        let volumeMonitor = Gio.VolumeMonitor.get();
+        volumeMonitor.connect('volume-added', volumeAdded);
+        //volumeMonitor.connect('drive-connected', driveConnected);
     }
 
 });
 
+
+function volumeAdded() {
+    Main.notify('Volume Monitor', 'Volume added.');
+}
 
 
 let button;
@@ -59,7 +69,7 @@ let button;
  * Don't do any thing major like UI modification.
  */
 function init() {
-
+  
 }
 
 /**
@@ -67,7 +77,6 @@ function init() {
  */
 function enable() {
     button = new NotificationCenter();
-
     Main.panel.addToStatusArea('notifycenter', button);
 }
 
